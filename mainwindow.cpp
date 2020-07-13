@@ -15,8 +15,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     connect(client, &ClientStuff::hasReadSome, this, &MainWindow::receivedSomething);
     connect(client, &ClientStuff::statusChanged, this, &MainWindow::setStatus);
-    connect(client->server, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error),
-            this, &MainWindow::gotError);
+    connect(client->server, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error), this, &MainWindow::gotError);
 }
 
 MainWindow::~MainWindow()
@@ -30,8 +29,7 @@ void MainWindow::setStatus(bool newStatus)
 {
     if(newStatus)
     {
-        ui->label_status->setText(
-                    tr("<font color=\"green\">CONNECTED</font>"));
+        ui->label_status->setText(tr("<font color=\"green\">CONNECTED</font>"));
         ui->textEdit_log->append(tr("<font color=\"green\"><b>client is connected.</b></font>"));
         ui->pushButton_connect->setVisible(false);
         ui->pushButton_disconnect->setVisible(true);
@@ -53,7 +51,7 @@ void MainWindow::receivedSomething(QString msg)
 
 void MainWindow::gotError(QAbstractSocket::SocketError err)
 {
-    //qDebug() << "got error";
+
     QString strError = "unknown";
     switch (err)
     {

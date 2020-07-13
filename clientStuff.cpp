@@ -13,8 +13,8 @@ ClientStuff::ClientStuff(
 {
     status = false;
 
-               host  =hostAddress;
-               port= portNumber;
+    host = hostAddress;
+    port = portNumber;
 
      server = new QSslSocket;
      connect(server, &QSslSocket::disconnected, this, &ClientStuff::closeConnection);
@@ -53,8 +53,6 @@ void ClientStuff::connectTohost()
 
 }
 
-
-
 void ClientStuff::connectionTimeout()
 {
     qCDebug(ATCORE_CLIENT) << server->state();
@@ -92,12 +90,16 @@ void ClientStuff::connected()
     emit statusChanged(status);
 }
 
-bool ClientStuff::getStatus() {return status;}
+bool ClientStuff::getStatus() 
+{   
+    return status;
+}
 
 void ClientStuff::readyRead()
 {
-    QDataStream in(server);
-    //in.setVersion(QDataStream::Qt_5_10);
+    
+  QDataStream in(server);
+
   for(;;)
     {
         if (!m_nNextBlockSize)
@@ -108,7 +110,8 @@ void ClientStuff::readyRead()
 
         if (server->bytesAvailable() < m_nNextBlockSize) { break; }
 
-        QString str; in >> str;
+        QString str; 
+        in >> str;
 
         if (str == "NULL")
         {
@@ -127,7 +130,7 @@ void ClientStuff::closeConnection()
 {
     timeoutTimer->stop();
 
-    //qDebug() << server->state();
+
     disconnect(server, &QSslSocket::connected,0,0);
     disconnect(server, &QSslSocket::readyRead,0,0);
 
